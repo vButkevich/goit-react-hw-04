@@ -5,16 +5,16 @@ import SearchBar from "../SearchBar/SearchBar";
 
 function App() {
   const [query, setQuery] = useState("");
-  console.log("query:", query);
+  console.log("App.query:", query);
 
-  const getQuery = (queryText) => {
-    console.log("getQuery", queryText);
-    setQuery(queryText);
+  const getQuery = (query) => {
+    console.log("App.getQuery", query);
+    setQuery(query);
   };
 
   return (
     <>
-      <SearchBar onSetQuery={getQuery} />
+      <SearchBar onSearch={getQuery} />
     </>
   );
 }

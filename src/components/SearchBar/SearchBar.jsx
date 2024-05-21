@@ -1,35 +1,35 @@
 import { useId } from "react";
-import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-
+import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
-import "./SearchBar.css";
 
-const SearchBar = ({ onSetQuery }) => {
+const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
+  const serchQueryId = "serchQueryId" + useId();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("f.e", e.target);
-    console.log("f.c", e.currentTarget);
-    // const query = e.target.query.value;
-    if (!query.trim()) {
-      toast.error("Please enter a search query");
-      return;
-    }
-    onSetQuery(query);
-    setQuery("");
-    e.target.reset();
+    const form = e.target;
+    if (!checkQuery(query)) return;
+    onSearch(query);
+    handleClear(e);
+    form.reset();
   };
-
-  const clearSearch = (e) => {
-    // onSubmit("");
-    console.log("e", e);
-    console.log("t", e.target);
-    console.log("c", e.currentTarget);
-    // e.target.query.value = "";
+  const handleSearch = (e) => {
+    if (!checkQuery(query)) return;
+    onSearch(query);
+    handleClear(e);
+  };
+  const handleClear = () => {
     setQuery("");
+  };
+  const checkQuery = (query) => {
+    const checkValue = query.trim() !== "";
+    if (!checkValue) {
+      toast.error("Please enter a search query");
+    }
+    return checkValue;
   };
 
   return (
@@ -40,15 +40,22 @@ const SearchBar = ({ onSetQuery }) => {
             type="text"
             name="query"
             value={query}
+            id={serchQueryId}
             autoComplete="off"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search images and photos"
             autoFocus
           />
-          <FaSearch className="icon search-icon" />
-          {/* {query && ( */}
-          <FaTimes className="icon clear-icon" onClick={clearSearch} />
-          // )}
+          <FaSearch
+            className={`${css.icon} ${css["search-icon"]}`}
+            onClick={handleSearch}
+          />
+          {query && (
+            <FaTimes
+              className={`${css.icon} ${css["clear-icon"]}`}
+              onClick={handleClear}
+            />
+          )}
         </div>
         <button type="submit">Search</button>
       </form>
