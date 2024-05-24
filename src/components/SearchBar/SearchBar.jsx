@@ -4,7 +4,7 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ submit }) => {
   const [query, setQuery] = useState("");
   const serchQueryId = "serchQueryId" + useId();
 
@@ -12,13 +12,13 @@ const SearchBar = ({ onSearch }) => {
     e.preventDefault();
     const form = e.target;
     if (!checkQuery(query)) return;
-    onSearch(query);
+    submit(query);
     handleClear(e);
     form.reset();
   };
   const handleSearch = (e) => {
     if (!checkQuery(query)) return;
-    onSearch(query);
+    submit(query);
     handleClear(e);
   };
   const handleClear = () => {
@@ -34,7 +34,7 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <header>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={css.form}>
         <div className={css["input-container"]}>
           <input
             type="text"
