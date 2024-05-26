@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 
-import css from "./ModalImage.module.css";
+import css from "./ImageModal.module.css";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -15,7 +15,7 @@ const customStyles = {
     backgroundColor: "#454545",
   },
 };
-const ModalImage = ({ isOpen, onRequestClose, image }) => (
+const ImageModal = ({ isOpen, onRequestClose, image }) => (
   <Modal
     isOpen={isOpen}
     onRequestClose={onRequestClose}
@@ -50,4 +50,4 @@ const ModalImage = ({ isOpen, onRequestClose, image }) => (
   </Modal>
 );
 
-export default ModalImage;
+export default ImageModal;

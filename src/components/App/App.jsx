@@ -5,15 +5,14 @@ import "./App.css";
 import "modern-normalize";
 
 import Loader from "../Loader/Loader";
-import Gallery from "../Gallery/Gallery";
+import ImageGallery from "../ImageGallery/ImageGallery";
 import SearchBar from "../SearchBar/SearchBar";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import LoadMoreBtn from "../LoadMore/LoadMore";
-import ModalImage from "../ModalImage/ModalImage";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "../ImageModal/ImageModal";
 
-// import axios from "axios";
-// import { fetchImagesByQuery } from "../../fetchImages-api";
 import { fetchImagesByQuery } from "../Api/fetchImages-api";
+import { generateId } from "../Api/genarateId";
 
 function App() {
   const [page, setPage] = useState(0);
@@ -25,11 +24,11 @@ function App() {
   const [error, setError] = useState(null);
 
   console.log("App.query:", query);
+  console.log("App.id:", generateId());
 
   const handleSearch = (serchQuery) => {
     console.log("App.getQuery", query);
     setQuery(serchQuery);
-    // setPage((page) => page + 1);
     setError(null);
     setImages([]);
     setPage(1);
@@ -62,29 +61,30 @@ function App() {
           itemsPerPage,
         });
         const images = response.data.hits;
-        console.log("response:", response);
-        console.log("data:", response.data);
-        console.log("images:", images);
+        // console.log("response:", response);
+        // console.log("data:", response.data);
+        // console.log("images:", images);
 
         setImages((prevImages) => [...prevImages, ...images]);
         setHasMore(response.data.totalHits >= page * itemsPerPage);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     }
     getImages();
-  }, [page]);
+  }, [query, page]);
+
 
   return (
     <>
       <SearchBar submit={handleSearch} />
       {error && <ErrorMessage message={error} />}
-      <Gallery images={images} onClick={openModal} />
+      <ImageGallery images={images} onClick={openModal} />
       {loading && <Loader />}
       {hasMore && !loading && <LoadMoreBtn onClick={loadMore} />}
-      <ModalImage
+      <ImageModal
         isOpen={!!modalImage}
         onRequestClose={closeModal}
         image={modalImage}

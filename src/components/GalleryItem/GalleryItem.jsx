@@ -1,14 +1,12 @@
-import React from "react";
+// import React from "react";
 import css from "./GalleryItem.module.css";
+import { nanoid } from "nanoid";
 
 const GalleryItem = ({ image, onClick }) => {
-  // console.log("image", image);
   return (
-    <li onClick={() => onClick(image)}>
-      <div>
-        {/* <img src={image.webformatURL} alt={image.tags} /> */}{" "}
-        <img src={image.previewURL} alt={image.tags} />
-      </div>
+    <li key={nanoid()} onClick={() => onClick(image)}>
+      <img src={image.webformatURL} alt={image.tags} />{" "}
+      {/* <img src={image.previewURL} alt={image.tags} /> */}
     </li>
   );
 };
