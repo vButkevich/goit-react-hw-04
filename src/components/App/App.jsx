@@ -11,7 +11,10 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
 
-import { fetchImagesByQuery } from "../Api/fetchImages-api";
+import {
+  fetchImagesByQuery,
+  fetchUnsplashPhotos,
+} from "../Api/fetchImages-api";
 
 function App() {
   const [page, setPage] = useState(0);
@@ -22,7 +25,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSearch = (serchQuery) => {
+  const handleSearch = async (serchQuery) => {
     setQuery(serchQuery);
     setError(null);
     setImages([]);
@@ -31,6 +34,7 @@ function App() {
 
   const loadMore = () => {
     setPage((page) => page + 1);
+    console.log("page :>> ", page);
   };
 
   const openModal = (image) => {
@@ -47,15 +51,17 @@ function App() {
     async function getImages() {
       try {
         setLoading(true);
-        const response = await fetchImagesByQuery({
+        //        const response = await fetchImagesByQuery({
+        const response = await fetchUnsplashPhotos({
           query,
           page,
           itemsPerPage,
         });
-        const images = response.data.hits;
+        // const images = response.data.hits;
+        const images = response.data.results;
 
         setImages((prevImages) => [...prevImages, ...images]);
-        setHasMore(response.data.totalHits > page * itemsPerPage);
+        setHasMore(response.data.total_pages > page);
       } catch (error) {
         setError(error.message);
       } finally {

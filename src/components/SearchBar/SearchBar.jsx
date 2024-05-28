@@ -13,13 +13,8 @@ const SearchBar = ({ submit }) => {
     const form = e.target;
     if (!checkQuery(query)) return;
     submit(query);
-    handleClear(e);
+    setQuery("");
     form.reset();
-  };
-  const handleSearch = (e) => {
-    if (!checkQuery(query)) return;
-    submit(query);
-    handleClear(e);
   };
   const handleClear = () => {
     setQuery("");
@@ -48,7 +43,7 @@ const SearchBar = ({ submit }) => {
           />
           <FaSearch
             className={`${css.icon} ${css["search-icon"]}`}
-            onClick={handleSearch}
+            // onClick={handleSearch}
           />
           {query && (
             <FaTimes

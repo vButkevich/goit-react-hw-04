@@ -2,13 +2,13 @@
 import { nanoid } from "nanoid";
 import css from "./ImageGallery.module.css";
 
-import GalleryItem from "../GalleryItem/GalleryItem";
+import ImageCard from "../ImageCard/ImageCard";
 
 const ImageGallery = ({ images, onClick }) => {
   return (
     <ul className={css.gallery}>
       {images.map((image) => (
-        <GalleryItem key={nanoid()} image={image} onClick={onClick} />
+        <ImageCard key={nanoid()} image={image} onClick={onClick} />
       ))}
     </ul>
   );

@@ -15,39 +15,40 @@ const customStyles = {
     backgroundColor: "#454545",
   },
 };
-const ImageModal = ({ isOpen, onRequestClose, image }) => (
-  <Modal
-    isOpen={isOpen}
-    onRequestClose={onRequestClose}
-    contentLabel="Image Modal"
-    style={customStyles}
-  >
-    {image && (
-      <div className={css["modal-container"]}>
-        <img
-          className={css["modal-image"]}
-          src={image.largeImageURL}
-          alt={image.tags}
-        />
-        <div>
-          <ul className={css["image-description"]}>
-            <li>
-              <p>{image.tags}</p>
-            </li>
-            <li>
-              <p>{image.description || "No description"}</p>
-            </li>
-            <li>
-              <p>By: {image.user}</p>
-            </li>
-            <li>
-              <p>Likes: {image.likes}</p>
-            </li>
-          </ul>
+const ImageModal = ({ isOpen, onRequestClose, image }) => {
+  // console.log("imaje :>> ", image);
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Image Modal"
+      style={customStyles}
+    >
+      {image && (
+        <div className={css["modal-container"]}>
+          <img
+            className={css["modal-image"]}
+            src={image.urls.thumb}
+            alt={image.slug}
+          />
+          <div>
+            <ul className={css["image-description"]}>
+              <li>{/* <p>{image.tags}</p> */}</li>
+              <li>
+                <p>{image.description || "No description"}</p>
+              </li>
+              <li>
+                <p>By: {image.user.name}</p>
+              </li>
+              <li>
+                <p>Likes: {image.user.likes}</p>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    )}
-  </Modal>
-);
+      )}
+    </Modal>
+  );
+};
 
 export default ImageModal;
